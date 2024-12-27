@@ -1,0 +1,1 @@
+ /Users/aaa/AndroidStudioProjects/facerecog/.dart_tool/flutter_build/e0aea8b3613bd16942d1aea73bec0c25/native_assets.yaml: 
