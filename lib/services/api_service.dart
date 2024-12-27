@@ -91,4 +91,34 @@ class ApiService {
       throw Exception('Error uploading image: $e');
     }
   }
+
+  // Fungsi untuk mengenali wajah dan mencatat presensi
+  Future<Map<String, dynamic>> recognizeFace(File image, String email, String location) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('$apiUrl/recognize_face'))
+        ..files.add(await http.MultipartFile.fromPath('face', image.path)) // Mengirimkan gambar wajah
+        ..fields['email'] = email  // Menambahkan email
+        ..fields['location'] = location  // Menambahkan lokasi pengguna
+        ..headers.addAll({
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'Authorization': 'Bearer $bearerToken',
+        });
+
+      var response = await request.send();  // Mengirim request
+      var responseBody = await response.stream.bytesToString();
+
+      // Debugging response
+      print('Recognize Response Status Code: ${response.statusCode}');
+      print('Recognize Response Body: $responseBody');
+
+      if (response.statusCode == 200) {
+        return jsonDecode(responseBody); // Kembalikan data respons dalam bentuk Map
+      } else {
+        throw Exception('Failed to recognize face. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error recognizing face: $e');
+    }
+  }
 }

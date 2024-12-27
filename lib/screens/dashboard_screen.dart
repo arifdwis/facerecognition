@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'upload_image_screen.dart';
+import 'face_recognition_screens.dart'; // Import the Face Recognition screen
 
 class DashboardScreen extends StatelessWidget {
   final String email; // Menyimpan email yang diteruskan
@@ -39,9 +40,15 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Placeholder for face recognition functionality
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Feature not implemented yet!')),
+                // Navigate to Face Recognition Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RecognizeFaceScreen(
+                      email: email, // Pass the email to RecognizeFaceScreen
+                      location: location, // Pass location or get dynamically
+                    ),
+                  ),
                 );
               },
               child: const Text('Start Face Recognition'),
